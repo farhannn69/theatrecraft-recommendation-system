@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TheatreCraft - Home Theatre Search & Recommendations</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- (1) NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">TheatreCraft</div>
+            <ul class="nav-links">
+                <li><a href="#" class="nav-link active">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="nav-link">Analytics ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Top Frequency</a></li>
+                        <li><a href="#">Frequency Count</a></li>
+                        <li><a href="#">Page Ranking</a></li>
+                    </ul>
+                </li>
+                <li><a href="#" class="nav-link">Compare</a></li>
+                <li><a href="#" class="nav-link">Recommend</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <!-- (2) HERO SECTION -->
+        <section class="hero-section">
+            <h1>TheatreCraft: Home Theatre Search & Recommendations</h1>
+            <p>Discover the best home theater systems from top brands. Compare, analyze, and find the perfect sound system for your space.</p>
+        </section>
+
+        <!-- (3) BRAND CARDS SECTION -->
+        <section class="brand-section">
+            <h2>Select a Brand to Crawl</h2>
+            <div class="brand-cards">
+                <div class="brand-card" data-brand="BOSE">
+                    <div class="brand-logo-placeholder">BOSE</div>
+                    <h3>Bose</h3>
+                </div>
+                <div class="brand-card" data-brand="SAMSUNG">
+                    <div class="brand-logo-placeholder">SAMSUNG</div>
+                    <h3>Samsung</h3>
+                </div>
+                <div class="brand-card" data-brand="JBL">
+                    <div class="brand-logo-placeholder">JBL</div>
+                    <h3>JBL</h3>
+                </div>
+                <div class="brand-card" data-brand="SONOS">
+                    <div class="brand-logo-placeholder">SONOS</div>
+                    <h3>Sonos</h3>
+                </div>
+                
+                <div class="brand-card" data-brand="LG">
+                    <div class="brand-logo-placeholder">LG</div>
+                    <h3>LG</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- (4) SEARCH SECTION -->
+        <section class="search-section">
+            <h2>Search Products</h2>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Search for products, features, models...">
+                <button id="search-button">Search</button>
+            </div>
+        </section>
+
+        <!-- (5) LATEST PRODUCTS SECTION -->
+        <section class="products-section">
+            <h2>Latest Crawled Products</h2>
+            <div id="latest-products-grid" class="products-grid">
+                <!-- Products will be dynamically loaded here -->
+            </div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
