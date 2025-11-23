@@ -16,7 +16,7 @@
                 <li class="dropdown">
                     <a href="#" class="nav-link">Analytics ▾</a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Top Frequency</a></li>
+                        <li><a href="searchFrequency.html">Top Frequency</a></li>
                         <li><a href="#">Frequency Count</a></li>
                         <li><a href="#">Page Ranking</a></li>
                     </ul>
@@ -66,8 +66,14 @@
         <section class="search-section">
             <h2>Search Products</h2>
             <div class="search-container">
-                <input type="text" id="search-input" placeholder="Search for products, features, models...">
+                <input type="text" id="search-input" placeholder="Search for products...">
                 <button id="search-button">Search</button>
+                
+                <!-- Autocomplete dropdown -->
+                <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
+                
+                <!-- Spell checker suggestions -->
+                <div id="spell-checker" class="spell-checker"></div>
             </div>
         </section>
 
@@ -78,6 +84,15 @@
                 <!-- Products will be dynamically loaded here -->
             </div>
         </section>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div id="modal-product-card"></div>
+        </div>
     </div>
 
     <script src="app.js"></script>
