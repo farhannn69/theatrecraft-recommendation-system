@@ -295,7 +295,7 @@ function showSpellChecker(suggestions, message) {
         </div>
     `;
     
-    spellChecker.style.display = "block";
+    spellChecker.classList.add("show");
     
     // Add click listeners to suggestions
     spellChecker.querySelectorAll(".spell-checker-suggestion").forEach(span => {
@@ -309,7 +309,7 @@ function showSpellChecker(suggestions, message) {
 
 function hideSpellChecker() {
     const spellChecker = document.getElementById("spell-checker");
-    spellChecker.style.display = "none";
+    spellChecker.classList.remove("show");
     spellChecker.innerHTML = "";
 }
 

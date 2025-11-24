@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TheatreCraft - Frequency Count</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Frequency Count specific styles */
+        .frequency-count-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .frequency-count-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .frequency-count-header h1 {
+            color: #B22234;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .frequency-count-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Search Section */
+        .frequency-count-search-section {
+            max-width: 700px;
+            margin: 0 auto 1rem;
+            position: relative;
+        }
+
+        .frequency-count-search-wrapper {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .frequency-count-input-wrapper {
+            position: relative;
+            flex: 1;
+        }
+
+        .frequency-count-search-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .frequency-count-search-input:focus {
+            outline: none;
+            border-color: #B22234;
+        }
+
+        .frequency-count-search-button {
+            padding: 1rem 2.5rem;
+            background-color: #B22234;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .frequency-count-search-button:hover {
+            background-color: #8a1a28;
+        }
+
+        .frequency-count-search-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Autocomplete Dropdown */
+        .frequency-count-autocomplete-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #ffffff;
+            border: 2px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: none;
+        }
+
+        .frequency-count-autocomplete-dropdown.show {
+            display: block;
+        }
+
+        .frequency-count-autocomplete-item {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .frequency-count-autocomplete-item:last-child {
+            border-bottom: none;
+        }
+
+        .frequency-count-autocomplete-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .frequency-count-autocomplete-item.no-results {
+            color: #999;
+            cursor: default;
+        }
+
+        .frequency-count-autocomplete-item.no-results:hover {
+            background-color: #ffffff;
+        }
+
+        /* Spell Checker */
+        .frequency-count-spell-checker {
+            text-align: center;
+            margin: 1rem auto 2rem;
+            padding: 1rem;
+            background-color: #ffebdf;
+            border: 2px solid #c37c79;
+            border-radius: 8px;
+            display: none;
+            max-width: 630px;
+        }
+
+        .frequency-count-spell-checker.show {
+            display: block;
+        }
+
+        .frequency-count-spell-checker p {
+            margin: 0 0 0.75rem 0;
+            font-size: 1rem;
+            color: #B22234;
+        }
+
+        .frequency-count-spell-suggestion {
+            display: inline-block;
+            margin: 0.5rem 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: #ffffff;
+            color: #B22234;
+            border: 2px solid #B22234;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .frequency-count-spell-suggestion:hover {
+            background-color: #B22234;
+            color: #ffffff;
+        }
+
+        /* Statistics Summary */
+        .statistics-summary {
+            display: none;
+            margin-bottom: 2rem;
+        }
+
+        .statistics-summary.show {
+            display: block;
+        }
+
+        .stats-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .stats-header h2 {
+            color: #212427;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-keyword {
+            color: #B22234;
+            font-weight: bold;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            color: #666;
+            font-size: 0.95rem;
+            font-weight: normal;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-card .stat-value {
+            color: #B22234;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        /* Results Section */
+        .results-section {
+            display: none;
+        }
+
+        .results-section.show {
+            display: block;
+        }
+
+        .results-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #B22234;
+        }
+
+        .results-header h2 {
+            color: #212427;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .results-info {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .results-table {
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .results-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .results-table thead {
+            background-color: #212427;
+            color: #ffffff;
+        }
+
+        .results-table th {
+            padding: 1.25rem;
+            text-align: left;
+            font-weight: bold;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .results-table th:first-child {
+            text-align: center;
+            width: 100px;
+        }
+
+        .results-table tbody tr {
+            border-bottom: 1px solid #e0e0e0;
+            transition: background-color 0.2s ease;
+        }
+
+        .results-table tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .results-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .results-table td {
+            padding: 1rem 1.25rem;
+            font-size: 0.95rem;
+        }
+
+        .results-table .serial-number {
+            text-align: center;
+            font-weight: bold;
+            color: #B22234;
+        }
+
+        .results-table .url-name {
+            color: #212427;
+            font-weight: 500;
+            word-break: break-all;
+        }
+
+        .results-table .url-name a {
+            color: #1a73e8;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .results-table .url-name a:hover {
+            color: #B22234;
+            text-decoration: underline;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .loading-indicator {
+            text-align: center;
+            padding: 3rem;
+            color: #B22234;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .frequency-count-container {
+                padding: 1rem;
+            }
+
+            .frequency-count-header h1 {
+                font-size: 2rem;
+            }
+
+            .frequency-count-search-wrapper {
+                flex-direction: column;
+            }
+
+            .frequency-count-autocomplete-dropdown {
+                margin-right: 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card .stat-value {
+                font-size: 2rem;
+            }
+
+            .results-table th,
+            .results-table td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="logo/theatrecraft-logo-png.png" alt="TheatreCraft" class="nav-logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="nav-link active">Analytics ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="searchFrequency.html">Top Frequency</a></li>
+                        <li><a href="frequencyCount.html">Frequency Count</a></li>
+                        <li><a href="pageRanking.html">Page Ranking</a></li>
+                    </ul>
+                </li>
+                <li><a href="#" class="nav-link">Compare</a></li>
+                <li><a href="#" class="nav-link">Recommend</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- FREQUENCY COUNT CONTENT -->
+    <div class="frequency-count-container">
+        <div class="frequency-count-header">
+            <h1>Keyword Frequency Analysis</h1>
+            <p>Analyze keyword occurrence across all product URLs</p>
+        </div>
+
+        <!-- Search Section -->
+        <div class="frequency-count-search-section">
+            <div class="frequency-count-search-wrapper">
+                <div class="frequency-count-input-wrapper">
+                    <input 
+                        type="text" 
+                        id="search-input"
+                        class="frequency-count-search-input" 
+                        placeholder="Enter keyword to analyze (min 2 characters)..."
+                        autocomplete="off"
+                    >
+                    <div id="autocomplete-dropdown" class="frequency-count-autocomplete-dropdown"></div>
+                </div>
+                <button id="search-button" class="frequency-count-search-button">Analyze</button>
+            </div>
+        </div>
+
+        <!-- Spell Checker -->
+        <div id="spell-checker" class="frequency-count-spell-checker">
+            <p><strong>Did you mean:</strong></p>
+            <div id="spell-suggestions"></div>
+        </div>
+
+        <!-- Statistics Summary -->
+        <div id="statistics-summary" class="statistics-summary">
+            <div class="stats-header">
+                <h2>Analysis Results for <span class="stats-keyword" id="searched-keyword"></span></h2>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Occurrences</h3>
+                    <div class="stat-value" id="total-occurrences">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total URLs Searched</h3>
+                    <div class="stat-value" id="total-urls-searched">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Found on URLs</h3>
+                    <div class="stat-value" id="found-on-urls">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-section" class="results-section">
+            <div class="results-header">
+                <h2>URLs Containing the Keyword</h2>
+                <p class="results-info">List of all URLs where the keyword was found</p>
+            </div>
+            <div class="results-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Serial No.</th>
+                            <th>URL</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-tbody">
+                        <!-- Results will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let debounceTimer;
+        const DEBOUNCE_DELAY = 300;
+        const MIN_AUTOCOMPLETE_LENGTH = 3;
+
+        // DOM Elements
+        const searchInput = document.getElementById("search-input");
+        const searchButton = document.getElementById("search-button");
+        const autocompleteDropdown = document.getElementById("autocomplete-dropdown");
+        const spellChecker = document.getElementById("spell-checker");
+        const spellSuggestions = document.getElementById("spell-suggestions");
+        const statisticsSummary = document.getElementById("statistics-summary");
+        const resultsSection = document.getElementById("results-section");
+        const resultsTbody = document.getElementById("results-tbody");
+        const searchedKeyword = document.getElementById("searched-keyword");
+        const totalOccurrences = document.getElementById("total-occurrences");
+        const totalUrlsSearched = document.getElementById("total-urls-searched");
+        const foundOnUrls = document.getElementById("found-on-urls");
+
+        // Event Listeners
+        document.addEventListener("DOMContentLoaded", () => {
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            // Search input - autocomplete
+            searchInput.addEventListener("input", handleAutocomplete);
+            
+            // Search button click
+            searchButton.addEventListener("click", performSearch);
+            
+            // Enter key on search input
+            searchInput.addEventListener("keypress", (e) => {
+                if (e.key === "Enter") {
+                    performSearch();
+                }
+            });
+
+            // Close autocomplete when clicking outside
+            document.addEventListener("click", (e) => {
+                if (!searchInput.contains(e.target) && !autocompleteDropdown.contains(e.target)) {
+                    hideAutocomplete();
+                }
+            });
+        }
+
+        // Autocomplete Handler
+        function handleAutocomplete() {
+            clearTimeout(debounceTimer);
+            
+            const query = searchInput.value.trim();
+            
+            if (query.length < MIN_AUTOCOMPLETE_LENGTH) {
+                hideAutocomplete();
+                return;
+            }
+
+            debounceTimer = setTimeout(() => {
+                fetchAutocomplete(query);
+            }, DEBOUNCE_DELAY);
+        }
+
+        async function fetchAutocomplete(prefix) {
+            try {
+                const response = await fetch(`/api/frequencycount/autocomplete?prefix=${encodeURIComponent(prefix)}`);
+                
+                if (!response.ok) {
+                    hideAutocomplete();
+                    return;
+                }
+                
+                const suggestions = await response.json();
+                displayAutocomplete(suggestions);
+                
+            } catch (error) {
+                console.error("Autocomplete error:", error);
+                hideAutocomplete();
+            }
+        }
+
+        function displayAutocomplete(suggestions) {
+            if (suggestions.length === 0) {
+                hideAutocomplete();
+                return;
+            }
+
+            autocompleteDropdown.innerHTML = suggestions.map(suggestion => 
+                `<div class="frequency-count-autocomplete-item" onclick="selectSuggestion('${suggestion}')">${suggestion}</div>`
+            ).join('');
+            
+            autocompleteDropdown.classList.add("show");
+        }
+
+        function hideAutocomplete() {
+            autocompleteDropdown.classList.remove("show");
+            autocompleteDropdown.innerHTML = '';
+        }
+
+        function selectSuggestion(suggestion) {
+            searchInput.value = suggestion;
+            hideAutocomplete();
+            performSearch();
+        }
+
+        // Search Handler
+        async function performSearch() {
+            const keyword = searchInput.value.trim();
+            
+            if (keyword.length < 2) {
+                alert("Please enter at least 2 characters");
+                return;
+            }
+
+            hideAutocomplete();
+            hideSpellChecker();
+            hideResults();
+            showLoading();
+
+            try {
+                searchButton.disabled = true;
+                
+                const response = await fetch(`/api/frequencycount/search?keyword=${encodeURIComponent(keyword)}`, {
+                    method: 'POST'
+                });
+                
+                if (!response.ok) {
+                    throw new Error("Search failed");
+                }
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    displayResults(result, keyword);
+                } else {
+                    displaySpellSuggestions(result.suggestions);
+                }
+                
+            } catch (error) {
+                console.error("Search error:", error);
+                showError("Failed to perform search. Please try again.");
+            } finally {
+                searchButton.disabled = false;
+            }
+        }
+
+        function displayResults(result, keyword) {
+            // Update keyword
+            searchedKeyword.textContent = keyword;
+            
+            // Update statistics
+            totalOccurrences.textContent = result.stats.totalOccurrences;
+            totalUrlsSearched.textContent = result.stats.totalURLsSearched;
+            foundOnUrls.textContent = result.stats.foundOnURLCount;
+            
+            // Show statistics
+            statisticsSummary.classList.add("show");
+            
+            // Display URL list
+            if (result.stats.foundURLs.length === 0) {
+                resultsTbody.innerHTML = '<tr><td colspan="2" class="no-results">No URLs found containing this keyword.</td></tr>';
+            } else {
+                resultsTbody.innerHTML = result.stats.foundURLs.map((url, index) => `
+                    <tr>
+                        <td class="serial-number">${index + 1}</td>
+                        <td class="url-name"><a href="${url}" target="_blank">${url}</a></td>
+                    </tr>
+                `).join('');
+            }
+            
+            resultsSection.classList.add("show");
+        }
+
+        function displaySpellSuggestions(suggestions) {
+            if (!suggestions || suggestions.length === 0) {
+                showError("No results found and no spell check suggestions available.");
+                return;
+            }
+
+            hideResults();
+            
+            spellSuggestions.innerHTML = suggestions.map(suggestion => 
+                `<span class="frequency-count-spell-suggestion" onclick="selectSpellSuggestion('${suggestion}')">${suggestion}</span>`
+            ).join('');
+            
+            spellChecker.classList.add("show");
+        }
+
+        function selectSpellSuggestion(suggestion) {
+            searchInput.value = suggestion;
+            hideSpellChecker();
+            performSearch();
+        }
+
+        // UI Helper Functions
+        function showLoading() {
+            statisticsSummary.classList.add("show");
+            totalOccurrences.textContent = "...";
+            totalUrlsSearched.textContent = "...";
+            foundOnUrls.textContent = "...";
+            
+            resultsSection.classList.add("show");
+            resultsTbody.innerHTML = '<tr><td colspan="2" class="loading-indicator">Analyzing URLs... Please wait.</td></tr>';
+        }
+
+        function showError(message) {
+            hideStatistics();
+            resultsSection.classList.add("show");
+            resultsTbody.innerHTML = `<tr><td colspan="2" class="no-results">${message}</td></tr>`;
+        }
+
+        function hideSpellChecker() {
+            spellChecker.classList.remove("show");
+            spellSuggestions.innerHTML = '';
+        }
+
+        function hideStatistics() {
+            statisticsSummary.classList.remove("show");
+        }
+
+        function hideResults() {
+            hideStatistics();
+            resultsSection.classList.remove("show");
+            resultsTbody.innerHTML = '';
+        }
+    </script>
+</body>
+</html>

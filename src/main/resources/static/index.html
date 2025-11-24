@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TheatreCraft - Home Theatre Search & Recommendations</title>
+    <title>TheatreCraft</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- (1) NAVBAR -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="nav-logo">TheatreCraft</div>
+            <a href="index.html" class="nav-logo">
+                <img src="logo/theatrecraft-logo-png.png" alt="TheatreCraft" class="nav-logo-img">
+            </a>
             <ul class="nav-links">
-                <li><a href="#" class="nav-link active">Home</a></li>
+                <li><a href="index.html" class="nav-link active">Home</a></li>
                 <li class="dropdown">
                     <a href="#" class="nav-link">Analytics ▾</a>
                     <ul class="dropdown-menu">
                         <li><a href="searchFrequency.html">Top Frequency</a></li>
-                        <li><a href="#">Frequency Count</a></li>
-                        <li><a href="#">Page Ranking</a></li>
+                        <li><a href="frequencyCount.html">Frequency Count</a></li>
+                        <li><a href="pageRanking.html">Page Ranking</a></li>
                     </ul>
                 </li>
                 <li><a href="#" class="nav-link">Compare</a></li>
@@ -39,25 +41,45 @@
             <h2>Select a Brand to Crawl</h2>
             <div class="brand-cards">
                 <div class="brand-card" data-brand="BOSE">
-                    <div class="brand-logo-placeholder">BOSE</div>
-                    <h3>Bose</h3>
+                    <div class="brand-logo-container">
+                        <img src="../../../logo/bose-logo-png.png" alt="Bose Logo" class="brand-logo">
+                    </div>
+                    <div class="brand-name">
+                        <h3>Bose</h3>
+                    </div>
                 </div>
                 <div class="brand-card" data-brand="SAMSUNG">
-                    <div class="brand-logo-placeholder">SAMSUNG</div>
-                    <h3>Samsung</h3>
+                    <div class="brand-logo-container">
+                        <img src="logo/samsung-logo-png.png" alt="Samsung Logo" class="brand-logo">
+                    </div>
+                    <div class="brand-name">
+                        <h3>Samsung</h3>
+                    </div>
                 </div>
                 <div class="brand-card" data-brand="JBL">
-                    <div class="brand-logo-placeholder">JBL</div>
-                    <h3>JBL</h3>
+                    <div class="brand-logo-container">
+                        <img src="logo/jbl-logo-png.png" alt="JBL Logo" class="brand-logo">
+                    </div>
+                    <div class="brand-name">
+                        <h3>JBL</h3>
+                    </div>
                 </div>
                 <div class="brand-card" data-brand="SONOS">
-                    <div class="brand-logo-placeholder">SONOS</div>
-                    <h3>Sonos</h3>
+                    <div class="brand-logo-container">
+                        <img src="logo/sonos-logo-png.png" alt="Sonos Logo" class="brand-logo">
+                    </div>
+                    <div class="brand-name">
+                        <h3>Sonos</h3>
+                    </div>
                 </div>
                 
                 <div class="brand-card" data-brand="LG">
-                    <div class="brand-logo-placeholder">LG</div>
-                    <h3>LG</h3>
+                    <div class="brand-logo-container">
+                        <img src="logo/lg-logo-png.png" alt="LG Logo" class="brand-logo">
+                    </div>
+                    <div class="brand-name">
+                        <h3>LG</h3>
+                    </div>
                 </div>
             </div>
         </section>
@@ -66,15 +88,16 @@
         <section class="search-section">
             <h2>Search Products</h2>
             <div class="search-container">
-                <input type="text" id="search-input" placeholder="Search for products...">
+                <div class="search-input-wrapper">
+                    <input type="text" id="search-input" placeholder="Search for products...">
+                    <!-- Autocomplete dropdown -->
+                    <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
+                </div>
                 <button id="search-button">Search</button>
-                
-                <!-- Autocomplete dropdown -->
-                <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
-                
-                <!-- Spell checker suggestions -->
-                <div id="spell-checker" class="spell-checker"></div>
             </div>
+            
+            <!-- Spell checker suggestions -->
+            <div id="spell-checker" class="spell-checker"></div>
         </section>
 
         <!-- (5) LATEST PRODUCTS SECTION -->
