@@ -39,7 +39,8 @@ body {
 .frequency-count-container,
 .page-ranking-container,
 .analytics-container,
-.comparator-container {
+.comparator-container,
+.all-products-container {
     flex: 1;
     width: 100%;
 }
