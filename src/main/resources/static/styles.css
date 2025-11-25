@@ -22,12 +22,26 @@ body {
     background-color: #ffffff;
     color: #212427;
     line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .main-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    flex: 1;
+    width: 100%;
+}
+
+/* Content wrapper for pages with custom containers */
+.frequency-count-container,
+.page-ranking-container,
+.analytics-container,
+.comparator-container {
+    flex: 1;
+    width: 100%;
 }
 
 h1, h2, h3 {
@@ -631,4 +645,24 @@ h1, h2, h3 {
     .brand-cards {
         grid-template-columns: repeat(2, 1fr);
     }
+}
+
+/* ========================
+   FOOTER
+   ======================== */
+
+.footer {
+    background-color: #0f1922;
+    color: #ffffff;
+    text-align: center;
+    padding: 1rem 20px;
+    margin-top: auto;
+    margin-bottom: 0;
+    width: 100%;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.footer p {
+    margin: 0;
+    font-size: 0.9rem;
 }
