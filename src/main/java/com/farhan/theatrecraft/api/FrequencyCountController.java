@@ -37,10 +37,10 @@ public class FrequencyCountController {
             // Trim and normalize keyword
             String normalizedKeyword = keyword.trim().toLowerCase();
             
-            // Minimum keyword length check (at least 2 characters)
-            if (normalizedKeyword.length() < 2) {
+            // Minimum keyword length check (at least 3 characters)
+            if (normalizedKeyword.length() < 3) {
                 Map<String, String> errorResponse = new HashMap<>();
-                errorResponse.put("error", "Keyword must be at least 2 characters long");
+                errorResponse.put("error", "Keyword must be at least 3 characters long");
                 return ResponseEntity.badRequest().body(errorResponse);
             }
 

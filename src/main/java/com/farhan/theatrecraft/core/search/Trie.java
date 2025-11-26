@@ -40,7 +40,7 @@ public class Trie {
         List<Product> results = new ArrayList<>();
         
         if (prefix == null || prefix.length() < minLength) {
-            return results;
+            return results; // Returns empty list []
         }
         
         String normalized = prefix.toLowerCase().trim();
@@ -57,7 +57,7 @@ public class Trie {
         
         // Collect all products under this prefix
         collectProducts(current, results, maxResults);
-        return results;
+        return results; // Returns result
     }
 
     /**

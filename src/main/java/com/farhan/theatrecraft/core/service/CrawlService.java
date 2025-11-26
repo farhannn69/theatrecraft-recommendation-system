@@ -16,11 +16,13 @@ public class CrawlService {
 
     private final ProductCsvRepository csvRepository;
     private final List<ProductCrawler> crawlers;
+    private final SearchService searchService;
     private List<Product> products;
 
-    public CrawlService(ProductCsvRepository csvRepository, List<ProductCrawler> crawlers) {
+    public CrawlService(ProductCsvRepository csvRepository, List<ProductCrawler> crawlers, SearchService searchService) {
         this.csvRepository = csvRepository;
         this.crawlers = crawlers;
+        this.searchService = searchService;
         this.products = new ArrayList<>();
     }
 
@@ -69,6 +71,9 @@ public class CrawlService {
 
     // Save the full product list (all brands) back to CSV
     csvRepository.saveAll(products);
+
+    // Reload SearchService so Trie includes newly crawled products
+    searchService.reloadProducts();
 
     System.out.println("Crawled " + crawledProducts.size() + " products for brand: " + brand);
 
